@@ -42,6 +42,8 @@ int main(int argc, char** argv){
 	printf("aflag = %d, bflag = %d, cvalue = %s \n", aflag, bflag,cvalue);
 	*/
 	
+
+	/* BUENO
 	char ivalue[300];
 	int nvalue;
 	int cvalue;
@@ -78,6 +80,37 @@ int main(int argc, char** argv){
 	}
 	
 	printf("ivalue = %s, nvalue = %d, cvalue = %d, pvalue = %s, dflag = %d  \n", ivalue , nvalue, cvalue, pvalue, dflag);
+	*/
+	char buffer[61];
+	char buffer2[100000];
+	//memset(buffer,0,sizeof(buffer));
+	FILE* file = fopen("ejemplo1.txt","r");
+	FILE* file2 = fopen("copia.txt","w");
+	fseek(file, 0L, SEEK_END);
+	printf("ejemplo.txt ocupa %ld bytes\n", ftell(file));
+	printf("sizeof(char): %ld\n",sizeof(char));
 	
+	fread(buffer2,sizeof(char),ftell(file),file);
+	fwrite(buffer2,sizeof(char),ftell(file),file2);
+	rewind(file);
+	fread(buffer,60,sizeof(char),file);
+	fread(buffer,60,sizeof(char),file);
+	fread(buffer,60,sizeof(char),file);
+	//buffer[61] = '\0';
+	if (buffer[61] == '\0'){
+		printf("son iguales\n");
+	}
+	else{
+		printf("no son iguales:|a||%c|\n",buffer[61]);
+
+	}
+	printf("%s",buffer);
+	fclose(file);
+	fclose(file2);
+
+  
+
+
+
 	return 0;
 }
