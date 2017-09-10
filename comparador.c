@@ -12,6 +12,14 @@ int compare(char *line, char *succession){
 }
 
 int main(){
-    printf("Hola, soy el programa comparador!\n");
+    //printf("Hola,gi soy el programa comparador!\n");
+    char buffer[200];
+    
+
+    FILE *file = fopen("ejemplo1.txt","r");
+    fscanf(file,"%s",buffer);
+    printf("%s\n",buffer);
+    fclose(file);
+    
     return 1;
 }
