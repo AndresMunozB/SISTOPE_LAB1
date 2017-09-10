@@ -13,11 +13,14 @@ int main(int argc,char *argv[]){
     pid_t pidFather = getpid();
     pid_t *arrayPid = (pid_t*) malloc(sizeof(pid_t)*10);
     int *arrayStatus = (int*) malloc(sizeof(int)*10);
-    FILE **files = (FILE**) malloc(sizeof(FILE*)*10); 
+    char id[20];
+    
     for(i=0;i<10;i++){
         arrayPid[i]=fork();
         if(arrayPid[i]==0){
-            execvp("./comparador",argv);
+            sprintf(id,"%d",i);
+            char *args[] = {id,NULL};
+            execvp("./comparador",args);
             break;
         }
     }
