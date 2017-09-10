@@ -12,6 +12,6 @@ int compare(char *line, char *succession){
 }
 
 int main(){
-    
+    printf("Hola, soy el programa comparador!\n");
     return 1;
 }

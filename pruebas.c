@@ -8,7 +8,7 @@
 
 int main(int argc,char *argv[]){
     
-
+    /*
     int i;
     pid_t pidFather = getpid();
     pid_t *arrayPid = (pid_t*) malloc(sizeof(pid_t)*10);
@@ -16,10 +16,15 @@ int main(int argc,char *argv[]){
     for(i=0;i<10;i++){
         arrayPid[i]=fork();
         if(arrayPid[i]==0){
+
             break;
         }
     }
-
+    if(arrayPid[i] == getpid()){
+        
+    }*/
+    
+    execvp("./comparador",argv);
     /*
     if(pidFather == getpid()){
         printf("soy el padre: %d\n", pidFather );
