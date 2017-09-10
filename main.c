@@ -4,51 +4,46 @@
 #include <ctype.h>
 #include <string.h>
 
-int main(int argc, char** argv){
-	/*
-	int aflag = 0;
-	int bflag = 0;
-	char cvalue[300];
-	int index;
-	int c;
-	opterr = 0; 
-	while((c = getopt(argc, argv, "ab:c:")) != -1){
-		switch(c){
-			case 'a':
-				aflag = 1;
-				break;
+/*ENTRADA: El nombre del archivo
+  SALIDA: Entero (0 o 1)
+  Esta función se encarga de verificar si el archivo con el nombre ingresado por parámetro
+  existe o no. Si retorna 0, el archivo no existe y en caso contrario, retorna 1.*/
+int fileExists(char* nombreArchivo){
+	FILE* archivo;
+	archivo = fopen(nombreArchivo, "r");
+	if(archivo == NULL)
+		return 0;
+	else
+		return 1;
+}
 
-			case 'b':
-				sscanf(optarg, "%d", &bflag);
-				break;
+/*ENTRADA: String que corresponde a la sucesión
+  SALIDA: Entero (0,1 o 2)
+  Se encarga de verificar si la sucesión ingresada como parametro es válida. 
+  Si retorna 0, la longitud es menor que la pedida, retorno 1 cuando se ingresan
+  caracteres no correspondidos, y retorno 2 cuando es válido.*/
+int verifySuccession(char* succession){
+	int length = strlen(succession);
 
-			case 'c':
-				strcpy(cvalue,optarg);
-				//cvalue = optarg; //optarg es string
-				break;
-
-			case '?':
-				if(optopt == 'c')
-					fprintf(stderr, "Opcion -%c requiere un argumento.\n", optopt);
-				else if(isprint(optopt))
-					fprintf(stderr, "Opcion desconocida '-%c'.\n", optopt);
-				else
-					fprintf(stderr, "Opcion con caracter desconocido '\\x%x' .\n",optopt );
+	if(length < 4)
+		return 0;
+	else{
+		for(int i = 0; i < length; i++){
+			if(succession[i] != 'A' && succession[i] != 'C' && succession[i] != 'G' && succession[i] != 'T')
 				return 1;
-			default:
-				abort();
 		}
+		return 2;
 	}
-	printf("aflag = %d, bflag = %d, cvalue = %s \n", aflag, bflag,cvalue);
-	*/
-	
+}
 
-	/* BUENO
+int main(int argc, char** argv){
+	
 	char ivalue[300];
 	int nvalue;
 	int cvalue;
 	char pvalue[300];
 	int dflag;
+	int numberArg = 0;
 
 	opterr = 0; //No se si es necesariaa
 	int c;
@@ -58,29 +53,59 @@ int main(int argc, char** argv){
 		switch(c){
 			printf("hola while!");
 			case 'i':
+				numberArg++;
 				strcpy(ivalue,optarg);
-				//ivalue = optarg;
+				if(fileExists(ivalue) == 0){
+					printf("Error: Archivo no Encontrado.\n");
+					exit(0);
+				}
 				break;
 			case 'n':
+				numberArg++;
 				sscanf(optarg, "%d", &nvalue);
+				if(nvalue < 1){
+					printf("Error: Cantidad de procesos debe ser 1 o mas.\n");
+					exit(0);
+				}
 				break;
 			case 'c':
+				numberArg++;
 				sscanf(optarg, "%d", &cvalue);
 				break;
 			case 'p':
+				numberArg++;
 				strcpy(pvalue,optarg);
-				//pvalue = optarg;
+				if(verifySuccession(pvalue) == 0){
+					printf("Error: Cantidad de caracteres insuficiente.\n");
+					exit(0);
+				}else if(verifySuccession(pvalue) == 1){
+					printf("Error: Sucesion invalida.\n");
+					exit(0);
+				}
 				break;
 			case 'd':
+				numberArg++;
 				dflag = 1;
 				break;
 			default:
 				abort();
 		}
 	}
-	
+	if(strlen(pvalue) > cvalue){
+		printf("Error: Sucesion a buscar es mayor que las lineas del archivo.\n");
+		exit(0);
+	}
+	if (numberArg < 5){
+		printf("Faltan parametros.\n");
+		exit(0);
+	}
+	else if(numberArg > 5){
+		printf("Sobran parametros.\n");
+		exit(0);
+	}
+
 	printf("ivalue = %s, nvalue = %d, cvalue = %d, pvalue = %s, dflag = %d  \n", ivalue , nvalue, cvalue, pvalue, dflag);
-	*/
+
 	char buffer[61];
 	char buffer2[100000];
 	//memset(buffer,0,sizeof(buffer));
@@ -108,9 +133,7 @@ int main(int argc, char** argv){
 	fclose(file);
 	fclose(file2);
 
-  
-
-
+ 
 
 	return 0;
 }
