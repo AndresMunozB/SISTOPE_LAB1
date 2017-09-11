@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+/*ENTRADA: String linea y string cadena de sucesión
+  SALIDA: Entero (0 o 1)
+  La función se encarga de buscar si existe una sucesión dentro de una línea 
+  de caracteres. Si existe retorna un 1 y en caso contrario, retorna 0. */
 int compare(char *line, char *succession){
     if (strstr(line,succession) != NULL){
         return 1;
@@ -11,6 +15,12 @@ int compare(char *line, char *succession){
     }
 }
 
+/*ENTRADA: Archivo de salida, string que contiene la línea y string que contiene la cadena
+  de sucesión.
+  SALIDA: Void
+  Se encarga de imprimir, dentro de un archivo de salida, la línea completa de la cadena de 
+  caracteres y al lado una respuesta SI o NO en caso de que haya encontrado el nucleotido o no
+  respectivamente.*/
 void printFile(FILE* fileSalida,char* buffer, char* succession){
     if(compare(buffer,succession)){
         fprintf(fileSalida, "%s SI\n", buffer);
@@ -37,7 +47,7 @@ int main(int argc,char *argv[]){
     strcat(fileName,"_");
     strcat(fileName, argv[4]);
     strcat(fileName,".txt");
-    printf("NOMBRE ARCHIVO: %s\n",fileName);
+    //printf("NOMBRE ARCHIVO: %s\n",fileName);
     FILE *fileSalida = fopen(fileName,"w");	
     FILE *file = fopen(argv[0],"r");
     fseek(file,position,SEEK_SET);
@@ -45,16 +55,16 @@ int main(int argc,char *argv[]){
         while(!feof(file)){
            fscanf(file,"%s",buffer);
            //printf("linea %d-> %s:%s y compare: %d\n",i,argv[4],buffer,compare(buffer,argv[2])); 
-	   printFile(fileSalida, buffer,argv[2]);         		
- 	   i++;
+	       printFile(fileSalida, buffer,argv[2]);         		
+ 	       i++;
         }
     }else{
-	while(i < lines){	
-	   fscanf(file,"%s",buffer);
+	   while(i < lines){	
+	       fscanf(file,"%s",buffer);
            //printf("linea %d-> %s:%s y compare: %d\n",i,argv[4],buffer,compare(buffer,argv[2]));  
            printFile(fileSalida, buffer,argv[2]);  
-	   i++;	
-	}
+	       i++;	
+	   }
     }
     /*fseek(file,position,SEEK_SET);
     fscanf(file,"%s",buffer);
