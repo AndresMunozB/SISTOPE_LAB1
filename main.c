@@ -38,6 +38,8 @@ int verifySuccession(char* succession){
 
 int main(int argc, char** argv){
 	
+	long int fileSize, lineSize;
+	int lines;
 	char ivalue[300];
 	int nvalue;
 	int cvalue;
@@ -112,7 +114,9 @@ int main(int argc, char** argv){
 	FILE* file = fopen("ejemplo1.txt","r");
 	FILE* file2 = fopen("copia.txt","w");
 	fseek(file, 0L, SEEK_END);
-	printf("ejemplo.txt ocupa %ld bytes\n", ftell(file));
+
+	fileSize = ftell(file);
+	printf("ejemplo.txt ocupa %ld bytes\n", fileSize);
 	printf("sizeof(char): %ld\n",sizeof(char));
 	
 	fread(buffer2,sizeof(char),ftell(file),file);
@@ -120,7 +124,7 @@ int main(int argc, char** argv){
 	rewind(file);
 	fread(buffer,60,sizeof(char),file);
 	fread(buffer,60,sizeof(char),file);
-	fread(buffer,60,sizeof(char),file);
+	fread(buffer,61,sizeof(char),file);
 	//buffer[61] = '\0';
 	if (buffer[61] == '\0'){
 		printf("son iguales\n");
@@ -129,11 +133,19 @@ int main(int argc, char** argv){
 		printf("no son iguales:|a||%c|\n",buffer[61]);
 
 	}
-	printf("%s",buffer);
+	//printf("%s",buffer);
+
+	char str[100], str1[100];
+	rewind(file);
+	fscanf(file, "%s\n", str);
+	lineSize = ftell(file);
+	printf("primera linea de ejemplo.txt ocupa %ld bytes\n", lineSize);
+
+	lines = (fileSize+1)/lineSize;
+	printf("Hay %d lineas \n", lines);
+
 	fclose(file);
 	fclose(file2);
-
- 
 
 	return 0;
 }
