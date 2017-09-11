@@ -5,10 +5,20 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-
+void appendFile(char *fileNameIn,char *fileNameOut){
+	FILE* fileIn = fopen(fileNameIn,"r");
+	FILE* fileOut = fopen(fileNameOut,"a");
+	char buffer;
+	while((buffer = fgetc ( fileIn )) != EOF){
+		fputc(buffer,fileOut);
+	} 
+	fclose(fileIn);
+    fclose(fileOut);
+    
+}
 int main(int argc,char *argv[]){
     
-    
+    /*
     int i;
     pid_t pidFather = getpid();
     pid_t *arrayPid = (pid_t*) malloc(sizeof(pid_t)*10);
@@ -45,7 +55,8 @@ int main(int argc,char *argv[]){
         }
         //while(1);
     }
-    
+    */
+    appendFile("ejemplo1.txt","copia.txt");
 
     return 0;
 }

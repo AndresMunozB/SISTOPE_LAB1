@@ -81,7 +81,16 @@ long int fileSizeBits(char *fileName){
     fclose(file);
     return fileSize;
 }
-
+void appendFile(char *fileNameIn,char *fileNameOut){
+	FILE* fileIn = fopen(fileNameIn,"r");
+	FILE* fileOut = fopen(fileNameOut,"a");
+	char buffer;
+	while((buffer = fgetc ( fileIn )) != EOF){
+		fputc(buffer,fileOut);
+	} 
+	fclose(fileIn);
+    fclose(fileOut);
+}
 void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesProccess){
 
 	int i;
@@ -121,20 +130,24 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
             waitpid(arrayPid[i],&arrayStatus[i],0);
         }
 		//while(1);
-		/*
-		for(i=0;i<nvalue;++){
+		char id[20];
+		char fileName[100];
+		for(i=0;i<nvalue;i++){
 			memset(fileName,0,sizeof(fileName));
 			strcat(fileName,"rp_");
 			strcat(fileName,pvalue);
 			strcat(fileName,"_");
-			strcat(fileName, );
+			sprintf(id,"%d",i);
+			strcat(fileName,id);
 			strcat(fileName,".txt");
 			printf("NOMBRE ARCHIVO: %s\n",fileName);
+			appendFile(fileName,"salida.txt");
 
-		}*/
+		}
 
     }
 }
+
 
 int main(int argc, char** argv){
 	
