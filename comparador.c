@@ -13,15 +13,20 @@ int compare(char *line, char *succession){
 
 int main(int argc,char *argv[]){
     //printf("Hola,gi soy el programa comparador!\n");
-    //char *args[] = {fileName,position,succession,lines,id,NULL};
-    int position = atoll(argv[1]);
+    //char *args[] = {fileName,position,succession,lines,id,lastProcess,NULL};
+    long int position = atoll(argv[1]);
     int lines = atoi(argv[3]);
+    int lastProcess = atoi(argv[5]);
 
 
     char buffer[200];
     
-
-    FILE *file = fopen("ejemplo1.txt","r");
+	
+	
+    FILE *file = fopen(argv[0],"r");
+    if(lastProcess == 1){
+	
+    }
     fseek(file,position,SEEK_SET);
     fscanf(file,"%s",buffer);
     printf("%s:%s\n",argv[4],buffer);

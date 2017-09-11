@@ -91,6 +91,7 @@ void function(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesProccess
     char id[20];
     char positionStr[50];
     char linesStr[50];
+    char lastProcess;
     
     for(i=0;i<nvalue;i++){
         arrayPid[i]=fork();
@@ -100,7 +101,12 @@ void function(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesProccess
             sprintf(positionStr,"%ld",(long int)linesProccess*i*(cvalue+1));
             sprintf(linesStr,"%d",linesProccess);
             //char *args[] = {fileName,position,succession,lines,id,NULL};
-            char *args[] = {ivalue,positionStr,pvalue,linesStr,id,NULL};
+	    if(i = nvalue-1){
+		lastProcess = '1';
+	    }else{
+		lastProcess = '0';
+            }
+            char *args[] = {ivalue,positionStr,pvalue,linesStr,id,lastProcess,NULL};
             execvp("./comparador",args);
             break;
         }
