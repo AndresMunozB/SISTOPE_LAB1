@@ -48,8 +48,8 @@ int verifySuccession(char* succession){
 
 int main(int argc, char** argv){
 	
-	long int fileSize, lineSize;
-	int lines;
+
+
 	char ivalue[300];
 	int nvalue;
 	int cvalue;
@@ -65,45 +65,25 @@ int main(int argc, char** argv){
 		switch(c){
 			printf("hola while!");
 			case 'i':
-				numberArg++;
 				strcpy(ivalue,optarg);
-				if(fileExists(ivalue) == 0){
-					printf("Error: Archivo no Encontrado.\n");
-					exit(0);
-				}
 				break;
 			case 'n':
-				numberArg++;
 				sscanf(optarg, "%d", &nvalue);
-				if(nvalue < 1){
-					printf("Error: Cantidad de procesos debe ser 1 o mas.\n");
-					exit(0);
-				}
 				break;
 			case 'c':
-				numberArg++;
 				sscanf(optarg, "%d", &cvalue);
 				break;
 			case 'p':
-				numberArg++;
 				strcpy(pvalue,optarg);
-				if(verifySuccession(pvalue) == 0){
-					printf("Error: Cantidad de caracteres insuficiente.\n");
-					exit(0);
-				}else if(verifySuccession(pvalue) == 1){
-					printf("Error: Sucesion invalida.\n");
-					exit(0);
-				}
 				break;
 			case 'd':
-				numberArg++;
 				dflag = 1;
 				break;
 			default:
 				abort();
 		}
 	}
-	if(strlen(pvalue) > cvalue){
+	/*if(strlen(pvalue) > cvalue){
 		printf("Error: Sucesion a buscar es mayor que las lineas del archivo.\n");
 		exit(0);
 	}
@@ -114,9 +94,10 @@ int main(int argc, char** argv){
 	else if(numberArg > 5){
 		printf("Sobran parametros.\n");
 		exit(0);
-	}
-	
+	}*/
 	printf("ivalue = %s, nvalue = %d, cvalue = %d, pvalue = %s, dflag = %d  \n", ivalue , nvalue, cvalue, pvalue, dflag);
+	/* ANTES
+	
 	char str[100];
 	FILE* file = fopen("ejemplo1.txt","r");
 	fseek(file, 0L, SEEK_END);
@@ -129,7 +110,33 @@ int main(int argc, char** argv){
 	lines = (fileSize+1)/lineSize;
 	printf("Hay %d lineas \n", lines);
 
-	fclose(file);
+	fclose(file);*/
+
+	//AHORA
+
+	//VARIABLES 
+	int lineSize = cvalue + 1;
+	int proccesses = nvalue;
+	int lines;
+	long int fileSize;
+	int linesProccess;
+
+	//TAMAÑO ARCHIVO
+	FILE* file = fopen("ejemplo1.txt","r");
+	fseek(file, 0L, SEEK_END);
+	fileSize = ftell(file) + 1;
+
+	//CALCULO DE LINEAS POR PROCESO
+	lines = fileSize / lineSize ;
+	linesProccess = lines / proccesses ;
+	printf("linesProccess: %d\n",linesProccess);
+
+
+
+	
+
+
+
 
 	return 0;
 }
