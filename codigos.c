@@ -74,3 +74,35 @@
 
 	}
 	//printf("%s",buffer);
+
+
+
+    //MAIN DE NUEVO: (01:39 )
+   if(strlen(pvalue) > cvalue){
+        printf("Error: Sucesion a buscar es mayor que las lineas del archivo.\n");
+        exit(0);
+    }
+    if (numberArg < 5){
+        printf("Faltan parametros.\n");
+        exit(0);
+    }
+    else if(numberArg > 5){
+        printf("Sobran parametros.\n");
+        exit(0);
+    }
+
+        /* ANTES
+    
+    char str[100];
+    FILE* file = fopen("ejemplo1.txt","r");
+    fseek(file, 0L, SEEK_END);
+    fileSize = ftell(file);
+    printf("ejemplo.txt ocupa %ld bytes\n", fileSize);
+    rewind(file);
+    fscanf(file, "%s\n", str);
+    lineSize = ftell(file);
+    printf("primera linea de ejemplo.txt ocupa %ld bytes\n", lineSize);
+    lines = (fileSize+1)/lineSize;
+    printf("Hay %d lineas \n", lines);
+
+    fclose(file);*/

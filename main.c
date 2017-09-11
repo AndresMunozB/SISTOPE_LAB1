@@ -22,9 +22,8 @@ int fileExists(char* nombreArchivo){
   Se encarga de verificar si la sucesión ingresada como parametro es válida. 
   Si retorna 0, la longitud es menor que la pedida, retorno 1 cuando se ingresan
   caracteres no correspondidos, y retorno 2 cuando es válido.*/
-
 int isNucleotide(char letter){
-	if (letter != 'A' || letter != 'C' || letter != 'G' || letter != 'T'){
+	if (letter == 'A' || letter == 'C' || letter == 'G' || letter == 'T'){
 		return 1;
 	}
 	else
@@ -32,7 +31,8 @@ int isNucleotide(char letter){
 		return 0;
 	}
 }
-int verifySuccession(char* succession){
+
+int verifySuccession(char* succession, int lengthLine){
 	int length = strlen(succession);
 	if(length < 4){
 		return 0;
@@ -42,14 +42,38 @@ int verifySuccession(char* succession){
 			return 0;
 		}		
 	}
+	if(lengthLine < strlen(succession))
+		return 0;
+
 	return 1;
 }
 
+int verifyProcess(int number){
+	if(number < 1)
+		return 0;
+	else
+		return 1;
+}
+
+int verifyArguments(char* ivalue, int nvalue, int cvalue, char* pvalue){
+	if(fileExists(ivalue) == 0){
+		printf("ERROR: Archivo no Encontrado.\n");
+		return 0;
+	}
+	else if(verifyProcess(nvalue) == 0){
+		printf("ERROR: Cantidad de procesos debe ser 1 o mas.\n");
+		return 0;
+	}
+	else if(verifySuccession(pvalue, cvalue) == 0){
+		printf("ERROR: Sucesion Invalida.\n");
+		return 0;
+	}
+	else 
+		return 1;
+}
 
 int main(int argc, char** argv){
 	
-
-
 	char ivalue[300];
 	int nvalue;
 	int cvalue;
@@ -59,6 +83,14 @@ int main(int argc, char** argv){
 
 	opterr = 0; //No se si es necesariaa
 	int c;
+
+	if(argc > 10){
+		printf("Sobran parametros.\n");
+		return 0;
+	}else if(argc < 8){
+		printf("Faltan parametros.\n");
+		return 0;
+	}
 	
 	while ((c = getopt(argc,argv,"i:n:c:p:d")) != -1){
 		//printf("%d\n",argc);
@@ -83,34 +115,13 @@ int main(int argc, char** argv){
 				abort();
 		}
 	}
-	/*if(strlen(pvalue) > cvalue){
-		printf("Error: Sucesion a buscar es mayor que las lineas del archivo.\n");
-		exit(0);
-	}
-	if (numberArg < 5){
-		printf("Faltan parametros.\n");
-		exit(0);
-	}
-	else if(numberArg > 5){
-		printf("Sobran parametros.\n");
-		exit(0);
-	}*/
-	printf("ivalue = %s, nvalue = %d, cvalue = %d, pvalue = %s, dflag = %d  \n", ivalue , nvalue, cvalue, pvalue, dflag);
-	/* ANTES
-	
-	char str[100];
-	FILE* file = fopen("ejemplo1.txt","r");
-	fseek(file, 0L, SEEK_END);
-	fileSize = ftell(file);
-	printf("ejemplo.txt ocupa %ld bytes\n", fileSize);
-	rewind(file);
-	fscanf(file, "%s\n", str);
-	lineSize = ftell(file);
-	printf("primera linea de ejemplo.txt ocupa %ld bytes\n", lineSize);
-	lines = (fileSize+1)/lineSize;
-	printf("Hay %d lineas \n", lines);
 
-	fclose(file);*/
+	if(verifyArguments(ivalue,nvalue,cvalue,pvalue) == 0)
+		return 0;
+
+	if(dflag == 1)
+		printf("ivalue = %s, nvalue = %d, cvalue = %d, pvalue = %s, dflag = %d  \n", ivalue , nvalue, cvalue, pvalue, dflag);
+
 
 	//AHORA
 
@@ -130,13 +141,6 @@ int main(int argc, char** argv){
 	lines = fileSize / lineSize ;
 	linesProccess = lines / proccesses ;
 	printf("linesProccess: %d\n",linesProccess);
-
-
-
-	
-
-
-
 
 	return 0;
 }
