@@ -131,17 +131,26 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
         }
 		//while(1);
 		char id[20];
-		char fileName[100];
+		char fileNameIn[100];
+		char fileNameOut[100];
 		for(i=0;i<nvalue;i++){
-			memset(fileName,0,sizeof(fileName));
-			strcat(fileName,"rp_");
-			strcat(fileName,pvalue);
-			strcat(fileName,"_");
+
+			//NOMBRE ARCHIVO DE RESULTADO PARCIAL
+			memset(fileNameIn,0,sizeof(fileNameIn));
+			strcat(fileNameIn,"rp_");
+			strcat(fileNameIn,pvalue);
+			strcat(fileNameIn,"_");
 			sprintf(id,"%d",i);
-			strcat(fileName,id);
-			strcat(fileName,".txt");
-			printf("NOMBRE ARCHIVO: %s\n",fileName);
-			appendFile(fileName,"salida.txt");
+			strcat(fileNameIn,id);
+			strcat(fileNameIn,".txt");
+
+			//NOMBRE DE ARCHIVO DE RESULTADO COMPLETO
+			memset(fileNameOut,0,sizeof(fileNameOut));
+			strcat(fileNameOut,"rc_");
+			strcat(fileNameOut,pvalue);
+			strcat(fileNameOut,".txt");
+			//printf("NOMBRE ARCHIVO: %s\n",fileNameIn);
+			appendFile(fileNameIn,fileNameOut);
 
 		}
 
