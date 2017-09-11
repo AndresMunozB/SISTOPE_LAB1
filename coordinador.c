@@ -137,7 +137,7 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
 
 			//NOMBRE ARCHIVO DE RESULTADO PARCIAL
 			memset(fileNameIn,0,sizeof(fileNameIn));
-			strcat(fileNameIn,"rp_");
+			strcat(fileNameIn,"./rp/rp_");
 			strcat(fileNameIn,pvalue);
 			strcat(fileNameIn,"_");
 			sprintf(id,"%d",i);
@@ -146,7 +146,7 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
 
 			//NOMBRE DE ARCHIVO DE RESULTADO COMPLETO
 			memset(fileNameOut,0,sizeof(fileNameOut));
-			strcat(fileNameOut,"rc_");
+			strcat(fileNameOut,"./rc/rc_");
 			strcat(fileNameOut,pvalue);
 			strcat(fileNameOut,".txt");
 			//printf("NOMBRE ARCHIVO: %s\n",fileNameIn);
@@ -224,7 +224,7 @@ int main(int argc, char** argv){
 
 
 	linesProccess = lines / nvalue ;
-	printf("linesProccess: %d\n",linesProccess);
+	//printf("linesProccess: %d\n",linesProccess);
 	createProcess(ivalue ,nvalue,cvalue,pvalue,linesProccess);
 
 	//EJECUCION

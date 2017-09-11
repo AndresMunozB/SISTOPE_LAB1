@@ -42,7 +42,7 @@ int main(int argc,char *argv[]){
     char fileName[50];
     memset(fileName,0,sizeof(fileName));
     
-    strcat(fileName,"rp_");
+    strcat(fileName,"./rp   /rp_");
     strcat(fileName,argv[2]);
     strcat(fileName,"_");
     strcat(fileName, argv[4]);

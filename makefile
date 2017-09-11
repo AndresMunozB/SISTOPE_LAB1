@@ -1,3 +1,3 @@
 all:
-	gcc -o main main.c
+	gcc -o sucesion coordinador.c
 	gcc -o comparador comparador.c
