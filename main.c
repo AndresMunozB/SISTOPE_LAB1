@@ -178,6 +178,7 @@ int main(int argc, char** argv){
 		printf("ERROR: Numero de procesos debe ser menor que la cantidad de lineas.\n");
 		return 0;
 	}
+	//./main -i ejemplo1.txt -n 5 -c 60 -p AAAA -d
 
 
 	linesProccess = lines / nvalue ;
