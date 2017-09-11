@@ -18,7 +18,7 @@ int main(int argc,char *argv[]){
     for(i=0;i<10;i++){
         arrayPid[i]=fork();
         if(arrayPid[i]==0){
-            sprintf(id,"%d",i);
+            sprintf(id,"%d",getpid());
             char *args[] = {id,NULL};
             execvp("./comparador",args);
             break;
