@@ -22,19 +22,29 @@ int fileExists(char* nombreArchivo){
   Se encarga de verificar si la sucesión ingresada como parametro es válida. 
   Si retorna 0, la longitud es menor que la pedida, retorno 1 cuando se ingresan
   caracteres no correspondidos, y retorno 2 cuando es válido.*/
-int verifySuccession(char* succession){
-	int length = strlen(succession);
 
-	if(length < 4)
+int isNucleotide(char letter){
+	if (letter != 'A' || letter != 'C' || letter != 'G' || letter != 'T'){
+		return 1;
+	}
+	else
+	{
 		return 0;
-	else{
-		for(int i = 0; i < length; i++){
-			if(succession[i] != 'A' && succession[i] != 'C' && succession[i] != 'G' && succession[i] != 'T')
-				return 1;
-		}
-		return 2;
 	}
 }
+int verifySuccession(char* succession){
+	int length = strlen(succession);
+	if(length < 4){
+		return 0;
+	}
+	for(int i = 0; i < length; i++){
+		if(!isNucleotide(succession[i])){
+			return 0;
+		}		
+	}
+	return 1;
+}
+
 
 int main(int argc, char** argv){
 	
@@ -51,7 +61,7 @@ int main(int argc, char** argv){
 	int c;
 	
 	while ((c = getopt(argc,argv,"i:n:c:p:d")) != -1){
-		
+		//printf("%d\n",argc);
 		switch(c){
 			printf("hola while!");
 			case 'i':
@@ -105,47 +115,21 @@ int main(int argc, char** argv){
 		printf("Sobran parametros.\n");
 		exit(0);
 	}
-
+	
 	printf("ivalue = %s, nvalue = %d, cvalue = %d, pvalue = %s, dflag = %d  \n", ivalue , nvalue, cvalue, pvalue, dflag);
-
-	char buffer[61];
-	char buffer2[100000];
-	//memset(buffer,0,sizeof(buffer));
+	char str[100];
 	FILE* file = fopen("ejemplo1.txt","r");
-	FILE* file2 = fopen("copia.txt","w");
 	fseek(file, 0L, SEEK_END);
-
 	fileSize = ftell(file);
 	printf("ejemplo.txt ocupa %ld bytes\n", fileSize);
-	printf("sizeof(char): %ld\n",sizeof(char));
-	
-	fread(buffer2,sizeof(char),ftell(file),file);
-	fwrite(buffer2,sizeof(char),ftell(file),file2);
-	rewind(file);
-	fread(buffer,60,sizeof(char),file);
-	fread(buffer,60,sizeof(char),file);
-	fread(buffer,61,sizeof(char),file);
-	//buffer[61] = '\0';
-	if (buffer[61] == '\0'){
-		printf("son iguales\n");
-	}
-	else{
-		printf("no son iguales:|a||%c|\n",buffer[61]);
-
-	}
-	//printf("%s",buffer);
-
-	char str[100], str1[100];
 	rewind(file);
 	fscanf(file, "%s\n", str);
 	lineSize = ftell(file);
 	printf("primera linea de ejemplo.txt ocupa %ld bytes\n", lineSize);
-
 	lines = (fileSize+1)/lineSize;
 	printf("Hay %d lineas \n", lines);
 
 	fclose(file);
-	fclose(file2);
 
 	return 0;
 }

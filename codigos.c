@@ -41,3 +41,36 @@
         }
     }
     while(1);*/
+
+
+
+
+
+    //MAIN
+
+    char buffer[61];
+	char buffer2[100000];
+	//memset(buffer,0,sizeof(buffer));
+	FILE* file = fopen("ejemplo1.txt","r");
+	FILE* file2 = fopen("copia.txt","w");
+	fseek(file, 0L, SEEK_END);
+
+	fileSize = ftell(file);
+	printf("ejemplo.txt ocupa %ld bytes\n", fileSize);
+	printf("sizeof(char): %ld\n",sizeof(char));
+	
+	fread(buffer2,sizeof(char),ftell(file),file);
+	fwrite(buffer2,sizeof(char),ftell(file),file2);
+	rewind(file);
+	fread(buffer,60,sizeof(char),file);
+	fread(buffer,60,sizeof(char),file);
+	fread(buffer,61,sizeof(char),file);
+	//buffer[61] = '\0';
+	if (buffer[61] == '\0'){
+		printf("son iguales\n");
+	}
+	else{
+		printf("no son iguales:|a||%c|\n",buffer[61]);
+
+	}
+	//printf("%s",buffer);
