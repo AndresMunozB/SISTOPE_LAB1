@@ -139,8 +139,14 @@ int main(int argc, char** argv){
 
 	//CALCULO DE LINEAS POR PROCESO
 	lines = fileSize / lineSize ;
-	linesProccess = lines / proccesses ;
-	printf("linesProccess: %d\n",linesProccess);
+	if(lines < nvalue){
+		printf("ERROR: Numero de procesos debe ser menor que la cantidad de lineas.\n");
+		return 0;
+	}
+	else{
+		linesProccess = lines / proccesses ;
+		printf("linesProccess: %d\n",linesProccess);
+	}
 
 	return 0;
 }
