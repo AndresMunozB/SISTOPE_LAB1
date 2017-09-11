@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <string.h>
+#include <sys/wait.h>
 
 /*ENTRADA: El nombre del archivo
   SALIDA: Entero (0 o 1)
@@ -72,6 +73,49 @@ int verifyArguments(char* ivalue, int nvalue, int cvalue, char* pvalue){
 		return 1;
 }
 
+long int fileSizeBits(char *fileName){
+    long int fileSize;
+    FILE* file = fopen(fileName,"r");
+	fseek(file, 0L, SEEK_END);
+    fileSize = ftell(file) + 1;
+    fclose(file);
+    return fileSize;
+}
+
+void function(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesProccess){
+
+	int i;
+    pid_t pidFather = getpid();
+    pid_t *arrayPid = (pid_t*) malloc(sizeof(pid_t)*nvalue);
+    int *arrayStatus = (int*) malloc(sizeof(int)*nvalue);
+    char id[20];
+    char positionStr[50];
+    char linesStr[50];
+    
+    for(i=0;i<nvalue;i++){
+        arrayPid[i]=fork();
+        if(arrayPid[i]==0){
+            //sprintf(id,"%d",getpid());
+            sprintf(id,"%d",i);
+            sprintf(positionStr,"%ld",(long int)linesProccess*i*(cvalue+1));
+            sprintf(linesStr,"%d",linesProccess);
+            //char *args[] = {fileName,position,succession,lines,id,NULL};
+            char *args[] = {ivalue,positionStr,pvalue,linesStr,id,NULL};
+            execvp("./comparador",args);
+            break;
+        }
+	}
+	
+    if(pidFather == getpid()){
+        printf("soy el padre: %d\n", pidFather );
+        for(i=0;i<nvalue;i++){
+            //printf("%d: %d\n",i,arrayPid[i]);
+            waitpid(arrayPid[i],&arrayStatus[i],0);
+        }
+        //while(1);
+    }
+}
+
 int main(int argc, char** argv){
 	
 	char ivalue[300];
@@ -79,7 +123,6 @@ int main(int argc, char** argv){
 	int cvalue;
 	char pvalue[300];
 	int dflag;
-	int numberArg = 0;
 
 	opterr = 0; //No se si es necesariaa
 	int c;
@@ -123,30 +166,27 @@ int main(int argc, char** argv){
 		printf("ivalue = %s, nvalue = %d, cvalue = %d, pvalue = %s, dflag = %d  \n", ivalue , nvalue, cvalue, pvalue, dflag);
 
 
-	//AHORA
 
 	//VARIABLES 
-	int lineSize = cvalue + 1;
-	int proccesses = nvalue;
 	int lines;
-	long int fileSize;
+	long int fileSize = fileSizeBits(ivalue);
 	int linesProccess;
 
-	//TAMAÑO ARCHIVO
-	FILE* file = fopen("ejemplo1.txt","r");
-	fseek(file, 0L, SEEK_END);
-	fileSize = ftell(file) + 1;
-
 	//CALCULO DE LINEAS POR PROCESO
-	lines = fileSize / lineSize ;
+	lines = fileSize /  (cvalue + 1) ;
 	if(lines < nvalue){
 		printf("ERROR: Numero de procesos debe ser menor que la cantidad de lineas.\n");
 		return 0;
 	}
-	else{
-		linesProccess = lines / proccesses ;
-		printf("linesProccess: %d\n",linesProccess);
-	}
+
+
+	linesProccess = lines / nvalue ;
+	printf("linesProccess: %d\n",linesProccess);
+	function(ivalue ,nvalue,cvalue,pvalue,linesProccess);
+
+	//EJECUCION
+
+	
 
 	return 0;
 }

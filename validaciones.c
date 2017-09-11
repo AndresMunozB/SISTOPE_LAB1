@@ -60,12 +60,20 @@ int verifyArguments(char* ivalue, int nvalue, int cvalue, char* pvalue){
 	else 
 		return 1;
 }
-
+long int fileSize(char *fileName){
+    long int fileSize;
+    FILE* file = fopen(fileName,"r");
+	fseek(file, 0L, SEEK_END);
+    fileSize = ftell(file) + 1;
+    fclose(file);
+    return fileSize;
+}
 int main(){
-	if(verifyArguments("ejemplo1.txt", 10, 30, "ATGC") == 0)
+	/*if(verifyArguments("ejemplo1.txt", 10, 30, "ATGC") == 0)
         exit(0);
     long int position= 1000;
     char positionStr[50];
     sprintf(positionStr,"%ld",position);
-    printf("%s\n",positionStr);
+    printf("%s\n",positionStr);*/
+    printf("%ld",fileSize("ejemplo1.txt"));
 }
