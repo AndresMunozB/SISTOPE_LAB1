@@ -14,12 +14,18 @@ int main(int argc,char *argv[]){
     pid_t *arrayPid = (pid_t*) malloc(sizeof(pid_t)*10);
     int *arrayStatus = (int*) malloc(sizeof(int)*10);
     char id[20];
+    char positionStr[50];
+    char linesStr[50];
     
     for(i=0;i<10;i++){
         arrayPid[i]=fork();
         if(arrayPid[i]==0){
-            sprintf(id,"%d",getpid());
-            char *args[] = {id,NULL};
+            //sprintf(id,"%d",getpid());
+            sprintf(id,"%d",i);
+            sprintf(positionStr,"%ld",(long int)1*i*61);
+            sprintf(linesStr,"%d",1);
+            //char *args[] = {fileName,position,succession,lines,id,NULL};
+            char *args[] = {"ejemplo1.txt",positionStr,"AAAA",linesStr,id,NULL};
             execvp("./comparador",args);
             break;
         }

@@ -62,6 +62,10 @@ int verifyArguments(char* ivalue, int nvalue, int cvalue, char* pvalue){
 }
 
 int main(){
-	if(verifyArguments("ejemplo.txt", 10, 30, "ATGC") == 0)
-		exit(0);
+	if(verifyArguments("ejemplo1.txt", 10, 30, "ATGC") == 0)
+        exit(0);
+    long int position= 1000;
+    char positionStr[50];
+    sprintf(positionStr,"%ld",position);
+    printf("%s\n",positionStr);
 }
