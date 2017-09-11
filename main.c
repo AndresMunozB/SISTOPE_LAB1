@@ -91,7 +91,8 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
     char id[20];
     char positionStr[50];
     char linesStr[50];
-    char* lastProcess;
+	char* lastProcess;
+	char fineNameBuffer[100];
    	
     
     for(i=0;i<nvalue;i++){
@@ -119,14 +120,19 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
             //printf("%d: %d\n",i,arrayPid[i]);
             waitpid(arrayPid[i],&arrayStatus[i],0);
         }
-        //while(1);
+		//while(1);
+		/*
+		for(i=0;i<nvalue;++){
+			memset(fileName,0,sizeof(fileName));
+			strcat(fileName,"rp_");
+			strcat(fileName,pvalue);
+			strcat(fileName,"_");
+			strcat(fileName, );
+			strcat(fileName,".txt");
+			printf("NOMBRE ARCHIVO: %s\n",fileName);
 
-    /*strcat(fileName,"rp_");
-    strcat(fileName,pvalue);
-    strcat(fileName,"_");
-    strcat(fileName, );
-    strcat(fileName,".txt");
-    printf("NOMBRE ARCHIVO: %s\n",fileName);*/
+		}*/
+
     }
 }
 
