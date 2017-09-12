@@ -18,11 +18,9 @@ int fileExists(char* nombreArchivo){
 		return 1;
 }
 
-/*ENTRADA: String que corresponde a la sucesión
-  SALIDA: Entero (0,1 o 2)
-  Se encarga de verificar si la sucesión ingresada como parametro es válida. 
-  Si retorna 0, la longitud es menor que la pedida, retorno 1 cuando se ingresan
-  caracteres no correspondidos, y retorno 2 cuando es válido.*/
+/*ENTRADA: Caracter 
+  SALIDA: Entero (0 o 1)
+  Se validan si el caracter que ingresa como parametro es considerado como parte del nucleotido.*/
 int isNucleotide(char letter){
 	if (letter == 'A' || letter == 'C' || letter == 'G' || letter == 'T'){
 		return 1;
@@ -33,6 +31,12 @@ int isNucleotide(char letter){
 	}
 }
 
+/*ENTRADA: String que corresponde a la sucesión y un entero que representa al largo de la línea.
+  SALIDA: Entero (0 o 1)
+  Se encarga de verificar si la sucesión ingresada como parametro es válida. Se validan 3 condiciones:
+  - Si el largo de la sucesión es mayor que 4
+  - Si cumple con las condiciones de la función anterior 
+  - Si el largo de la sucesión es menor que el largo de la línea.*/
 int verifySuccession(char* succession, int lengthLine){
 	int length = strlen(succession);
 	if(length < 4){
@@ -49,6 +53,9 @@ int verifySuccession(char* succession, int lengthLine){
 	return 1;
 }
 
+/*ENTRADA: Entero que corresponde a la cantidad de procesos
+  SALIDA: Entero (0 o 1)
+  Esta función se encarga de verificar si la cantidad de procesos es menor que 1*/
 int verifyProcess(int number){
 	if(number < 1)
 		return 0;
@@ -56,6 +63,10 @@ int verifyProcess(int number){
 		return 1;
 }
 
+/*ENTRADA: Todos los valores que ingresan por parametro con getopt
+  SALIDA: Entero (0 o 1)
+  Esta función abarca las pequeñas funciones anteriores, donde se verifican si todos
+  los parametros cumplen las condiciones.*/
 int verifyArguments(char* ivalue, int nvalue, int cvalue, char* pvalue){
 	if(fileExists(ivalue) == 0){
 		printf("ERROR: Archivo no Encontrado.\n");
@@ -73,6 +84,9 @@ int verifyArguments(char* ivalue, int nvalue, int cvalue, char* pvalue){
 		return 1;
 }
 
+/*ENTRADA: String que corresponde al nombre del archivo
+  SALIDA: Un entero long
+  Se encarga de obtener el tamaño del archivo en bytes*/
 long int fileSizeBits(char *fileName){
     long int fileSize;
     FILE* file = fopen(fileName,"r");
@@ -81,6 +95,11 @@ long int fileSizeBits(char *fileName){
     fclose(file);
     return fileSize;
 }
+
+/*ENTRADA: Dos strings que corresponden al archivo de salida parcial y el archivo de salida completo
+  SALIDA: Void
+  Se encarga de obtener lo escrito en el archivo de salida parcial y lo copia al archivo de salida
+  completo para tener todos los resultados en el mismo archivo de texto.*/
 void appendFile(char *fileNameIn,char *fileNameOut){
 	FILE* fileIn = fopen(fileNameIn,"r");
 	FILE* fileOut = fopen(fileNameOut,"a");
@@ -91,6 +110,12 @@ void appendFile(char *fileNameIn,char *fileNameOut){
 	fclose(fileIn);
     fclose(fileOut);
 }
+
+/*ENTRADA: Todos los parametros de getopt más un entero que representa la cantidad de lineas 
+  que debería ejecutar cada proceso.
+  SALIDA: Void
+  La función se encarga de crear varios procesos para luego llamar al programa comparador. Una 
+  vez terminado esto realiza la copia al archivo de salida completo con el apoyo de la función anterior.*/
 void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesProccess){
 
 	int i;
@@ -124,7 +149,7 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
 	}
 	
     if(pidFather == getpid()){
-        printf("soy el padre: %d\n", pidFather );
+        //printf("soy el padre: %d\n", pidFather );
         for(i=0;i<nvalue;i++){
             //printf("%d: %d\n",i,arrayPid[i]);
             waitpid(arrayPid[i],&arrayStatus[i],0);
@@ -201,6 +226,7 @@ int main(int argc, char** argv){
 		}
 	}
 
+	//Se validan los argumentos
 	if(verifyArguments(ivalue,nvalue,cvalue,pvalue) == 0)
 		return 0;
 
