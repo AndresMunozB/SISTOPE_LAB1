@@ -53,9 +53,12 @@ int main(int argc,char *argv[]){
     //Si el proceso es el último proceso, leera todas las líneas hasta el final del archivo
     if(lastProcess == 1){
         while(!feof(file)){
-           fscanf(file,"%s",buffer);
-	       printFile(fileSalida, buffer,argv[2]);         		
- 	       i++;
+            fscanf(file,"%s",buffer);
+            if(!feof(file)){
+                printFile(fileSalida, buffer,argv[2]);         		
+                i++;
+            }
+	      
         }
     }else{
 	   while(i < lines){	
