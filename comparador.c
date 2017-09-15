@@ -38,19 +38,25 @@ int main(int argc,char *argv[]){
     	
 
     char buffer[200];
+
+    //SE CREA EL NOMBRE DEL ARCHIVO DE SALIDA
     char fileName[50];
     memset(fileName,0,sizeof(fileName));
-    
     strcat(fileName,"./rp/rp_");
     strcat(fileName,argv[2]);
     strcat(fileName,"_");
     strcat(fileName, argv[4]);
     strcat(fileName,".txt");
+
+    //SE ABRE EL ARHCIVO  Y SE POSICIONA DESDE DONDE DEBE LEER
     FILE *fileSalida = fopen(fileName,"w");	
     FILE *file = fopen(argv[0],"r");
     fseek(file,position,SEEK_SET);
 
-    //Si el proceso es el último proceso, leera todas las líneas hasta el final del archivo
+    /*
+    SI EL PROCESO ES EL ULTIMO, ENTONCES PROCESARÁ TODAS LAS LINEAS DESDE DONDE
+    DEBE LEER ESTE PROCESO HASTA EL FINAL DEL ARCHIVO.
+    */
     if(lastProcess == 1){
         while(!feof(file)){
             fscanf(file,"%s",buffer);

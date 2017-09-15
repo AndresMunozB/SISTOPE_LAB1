@@ -87,7 +87,7 @@ int verifyArguments(char* ivalue, int nvalue, int cvalue, char* pvalue){
 /*ENTRADA: String que corresponde al nombre del archivo
   SALIDA: Un entero long
   Se encarga de obtener el tamaño del archivo en bytes*/
-long int fileSizeBits(char *fileName){
+long int fileSizeBytes(char *fileName){
     long int fileSize;
     FILE* file = fopen(fileName,"r");
 	fseek(file, 0L, SEEK_END);
@@ -132,29 +132,34 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
     for(i=0;i<nvalue;i++){
         arrayPid[i]=fork();
         if(arrayPid[i]==0){
-            //sprintf(id,"%d",getpid());
             sprintf(id,"%d",i);
             sprintf(positionStr,"%ld",(long int)linesProccess*i*(cvalue+1));
-            sprintf(linesStr,"%d",linesProccess);
-            //char *args[] = {fileName,position,succession,lines,id,NULL};
-	    if(i == nvalue-1){
-		lastProcess = "1";
-	    }else{
-		lastProcess = "0";
-            }
-            char *args[] = {ivalue,positionStr,pvalue,linesStr,id,lastProcess,NULL};
+			sprintf(linesStr,"%d",linesProccess);
+		
+			//SE ANALIZA SI ES EL ULTIMO PROCESO
+			if(i == nvalue-1)
+			{
+				lastProcess = "1";
+			}
+			else
+			{
+				lastProcess = "0";
+			}
+			//SE JUNTAN LOS ARGUMENTOS Y SE EJECUTA EL PROGRAMA COMPARADOR PARA EL PROCESO RECIEN CREADO
+           	char *args[] = {ivalue,positionStr,pvalue,linesStr,id,lastProcess,NULL};
             execvp("./comparador",args);
             break;
         }
 	}
 	
+	//VERIFICACION PARA SABER SI EL PROCESO ES EL PADRE
     if(pidFather == getpid()){
-        //printf("soy el padre: %d\n", pidFather );
+		//SE HACE ESPERAR A TODOS LOS HIJOS
         for(i=0;i<nvalue;i++){
-            //printf("%d: %d\n",i,arrayPid[i]);
             waitpid(arrayPid[i],&arrayStatus[i],0);
-        }
-		//while(1);
+		}
+		
+		//JUNTAR LOS RESULTADOS PARCIALES
 		char id[20];
 		char fileNameIn[100];
 		char fileNameOut[100];
@@ -174,7 +179,8 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
 			strcat(fileNameOut,"./rc/rc_");
 			strcat(fileNameOut,pvalue);
 			strcat(fileNameOut,".txt");
-			//printf("NOMBRE ARCHIVO: %s\n",fileNameIn);
+
+			//SE COPIA EL ARCHIVO PARCIAL AL ARCHIVO FINAL
 			appendFile(fileNameIn,fileNameOut);
 
 		}
@@ -191,7 +197,7 @@ int main(int argc, char** argv){
 	char pvalue[300];
 	int dflag;
 
-	opterr = 0; //No se si es necesariaa
+	opterr = 0;
 	int c;
 
 	if(argc > 10){
@@ -232,28 +238,23 @@ int main(int argc, char** argv){
 
 	if(dflag == 1)
 		printf("ivalue = %s, nvalue = %d, cvalue = %d, pvalue = %s, dflag = %d  \n", ivalue , nvalue, cvalue, pvalue, dflag);
-
-
-
 	//VARIABLES 
 	int lines;
-	long int fileSize = fileSizeBits(ivalue);
+	long int fileSize = fileSizeBytes(ivalue);
 	int linesProccess;
 
 	//CALCULO DE LINEAS POR PROCESO
 	lines = fileSize /  (cvalue + 1) ;
+	//ULTIMA VALIDACION 
 	if(lines < nvalue){
 		printf("ERROR: Numero de procesos debe ser menor que la cantidad de lineas.\n");
 		return 0;
 	}
-	//./main -i ejemplo1.txt -n 5 -c 60 -p AAAA -d
-
-
 	linesProccess = lines / nvalue ;
-	//printf("linesProccess: %d\n",linesProccess);
-	createProcess(ivalue ,nvalue,cvalue,pvalue,linesProccess);
+
 
 	//EJECUCION
+	createProcess(ivalue ,nvalue,cvalue,pvalue,linesProccess);
 
 	
 
