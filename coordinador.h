@@ -1,9 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <ctype.h>
-#include <string.h>
-#include <sys/wait.h>
+
 
 #ifndef COORDINADOR_H
 #define COORDINADOR_H
@@ -22,6 +17,6 @@ long int fileSizeBytes(char *fileName);
 
 void appendFile(char *fileNameIn,char *fileNameOut);
 
-void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesProccess)
+void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesProccess);
 
 #endif
