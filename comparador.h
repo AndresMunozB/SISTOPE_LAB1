@@ -5,6 +5,6 @@
 
 int compare(char *line, char *succession);
 
-void printFile(FILE* fileSalida,char* buffer, char* succession);
+void printFile(FILE* fileSalida,char* buffer, char* succession, int dflag, int processId);
 
 #endif

@@ -23,10 +23,14 @@ int compare(char *line, char *succession){
   Se encarga de imprimir, dentro de un archivo de salida, la línea completa de la cadena de 
   caracteres y al lado una respuesta SI o NO en caso de que haya encontrado el nucleotido o no
   respectivamente.*/
-void printFile(FILE* fileSalida,char* buffer, char* succession){
+void printFile(FILE* fileSalida,char* buffer, char* succession, int dflag, int processId){
     if(compare(buffer,succession)){
+        if(dflag == 1)
+            printf("Proceso %d. %s SI\n",processId,buffer);
         fprintf(fileSalida, "%s SI\n", buffer);
     }else{
+        if(dflag == 1)
+            printf("Proceso %d. %s NO\n",processId,buffer);
         fprintf(fileSalida, "%s NO\n", buffer);
     }   
 }
@@ -35,7 +39,9 @@ int main(int argc,char *argv[]){
     //*args[] = {fileName,position,succession,lines,id,lastProcess,NULL};
     long int position = atoll(argv[1]); //posicion de donde comienza el proceso
     int lines = atoi(argv[3]); //lineas totales
+    int processId = atoi(argv[4]); //numero de proceso
     int lastProcess = atoi(argv[5]); //Indica si es el último proceso
+    int dflag = atoi(argv[6]);
     int i = 0;	
     	
 
@@ -63,7 +69,7 @@ int main(int argc,char *argv[]){
         while(!feof(file)){
             fscanf(file,"%s",buffer);
             if(!feof(file)){
-                printFile(fileSalida, buffer,argv[2]);         		
+                printFile(fileSalida, buffer,argv[2],dflag,processId);         		
                 i++;
             }
 	      
@@ -71,7 +77,7 @@ int main(int argc,char *argv[]){
     }else{
 	   while(i < lines){	
 	       fscanf(file,"%s",buffer);
-           printFile(fileSalida, buffer,argv[2]);  
+           printFile(fileSalida, buffer,argv[2],dflag,processId);  
 	       i++;	
 	   }
     }

@@ -17,6 +17,6 @@ long int fileSizeBytes(char *fileName);
 
 void appendFile(char *fileNameIn,char *fileNameOut);
 
-void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesProccess);
+void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesProccess, int dflag);
 
 #endif

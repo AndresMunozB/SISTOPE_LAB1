@@ -118,7 +118,7 @@ void appendFile(char *fileNameIn,char *fileNameOut){
   SALIDA: Void
   La función se encarga de crear varios procesos para luego llamar al programa comparador. Una 
   vez terminado esto realiza la copia al archivo de salida completo con el apoyo de la función anterior.*/
-void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesProccess){
+void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesProccess, int dflag){
 
 	int i;
     pid_t pidFather = getpid();
@@ -129,6 +129,7 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
     char linesStr[50];
 	char* lastProcess;
 	char fineNameBuffer[100];
+	char flag[10];
    	
     
     for(i=0;i<nvalue;i++){
@@ -137,6 +138,7 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
             sprintf(id,"%d",i);
             sprintf(positionStr,"%ld",(long int)linesProccess*i*(cvalue+1));
 			sprintf(linesStr,"%d",linesProccess);
+			sprintf(flag,"%d",dflag);
 		
 			//SE ANALIZA SI ES EL ULTIMO PROCESO
 			if(i == nvalue-1)
@@ -148,7 +150,7 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
 				lastProcess = "0";
 			}
 			//SE JUNTAN LOS ARGUMENTOS Y SE EJECUTA EL PROGRAMA COMPARADOR PARA EL PROCESO RECIEN CREADO
-           	char *args[] = {ivalue,positionStr,pvalue,linesStr,id,lastProcess,NULL};
+           	char *args[] = {ivalue,positionStr,pvalue,linesStr,id,lastProcess,flag,NULL};
             execvp("./comparador",args);
             break;
         }
@@ -238,8 +240,8 @@ int main(int argc, char** argv){
 	if(verifyArguments(ivalue,nvalue,cvalue,pvalue) == 0)
 		return 0;
 
-	if(dflag == 1)
-		printf("ivalue = %s, nvalue = %d, cvalue = %d, pvalue = %s, dflag = %d  \n", ivalue , nvalue, cvalue, pvalue, dflag);
+	/*if(dflag == 1)
+		printf("ivalue = %s, nvalue = %d, cvalue = %d, pvalue = %s, dflag = %d  \n", ivalue , nvalue, cvalue, pvalue, dflag);*/
 	//VARIABLES 
 	int lines;
 	long int fileSize = fileSizeBytes(ivalue);
@@ -256,7 +258,7 @@ int main(int argc, char** argv){
 
 
 	//EJECUCION
-	createProcess(ivalue ,nvalue,cvalue,pvalue,linesProccess);
+	createProcess(ivalue ,nvalue,cvalue,pvalue,linesProccess,dflag);
 
 	
 
