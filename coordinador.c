@@ -5,6 +5,8 @@
 #include <string.h>
 #include <sys/wait.h>
 
+#include "coordinador.h"
+
 /*ENTRADA: El nombre del archivo
   SALIDA: Entero (0 o 1)
   Esta función se encarga de verificar si el archivo con el nombre ingresado por parámetro

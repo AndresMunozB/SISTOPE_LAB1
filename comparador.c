@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "comparador.h"
+
 /*ENTRADA: String linea y string cadena de sucesión
   SALIDA: Entero (0 o 1)
   La función se encarga de buscar si existe una sucesión dentro de una línea 
