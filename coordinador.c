@@ -128,7 +128,6 @@ void createProcess(char *ivalue ,int nvalue,int cvalue,char* pvalue,int linesPro
     char positionStr[50];
     char linesStr[50];
 	char* lastProcess;
-	char fineNameBuffer[100];
 	char flag[10];
    	
     
@@ -240,8 +239,6 @@ int main(int argc, char** argv){
 	if(verifyArguments(ivalue,nvalue,cvalue,pvalue) == 0)
 		return 0;
 
-	/*if(dflag == 1)
-		printf("ivalue = %s, nvalue = %d, cvalue = %d, pvalue = %s, dflag = %d  \n", ivalue , nvalue, cvalue, pvalue, dflag);*/
 	//VARIABLES 
 	int lines;
 	long int fileSize = fileSizeBytes(ivalue);
