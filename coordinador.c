@@ -110,7 +110,7 @@ void appendFile(char *fileNameIn,char *fileNameOut){
 		fputc(buffer,fileOut);
 	} 
 	fclose(fileIn);
-    fclose(fileOut);
+	fclose(fileOut);
 }
 
 /*ENTRADA: Todos los parametros de getopt más un entero que representa la cantidad de lineas 
